@@ -1,5 +1,18 @@
 # College Timetable Generator
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Parth0603/college-timetable-generator)
+
+**Live Demo:** After clicking the button above, Render will automatically:
+1. Create a free PostgreSQL database
+2. Build the Docker container with PHP + Python
+3. Initialize the database with schema and sample data
+4. Deploy with a public URL you can share
+
+**Login:** `admin` / `admin123`
+
+---
+
+
 A complete DBMS minor project for automatically generating conflict-free college timetables using Core PHP 8, MySQL 8, and a Python 3 backtracking scheduler.
 
 ## Project Overview
@@ -283,3 +296,77 @@ This checks password hashing, transactional CRUD, foreign-key protection, manual
 7. Try a conflicting manual edit and show the rejection message.
 8. Generate a second version and show history.
 9. Publish and export a PDF.
+
+
+---
+
+## Free Cloud Deployment (Render.com)
+
+This project is configured for one-click free deployment on Render.com.
+
+### What Gets Created (All Free)
+
+| Service | Plan | Details |
+|---------|------|---------|
+| Web Service | Free | 512MB RAM, PHP 8.3 + Python 3 |
+| PostgreSQL Database | Free | 1GB storage, auto-created |
+| Keep-Alive Monitor | Built-in | Pings every 10 minutes |
+
+### Deploy Steps
+
+1. Click the **Deploy to Render** button at the top of this README
+2. Log in to Render with your **GitHub account** (free signup)
+3. Review the services and click **Apply**
+4. Wait 3-5 minutes for the build to complete
+5. Your live URL will be: `https://college-timetable-generator.onrender.com`
+
+### Keep-Alive (Prevents Free Tier Sleep)
+
+Render free tier sleeps after 15 minutes of inactivity. This project includes:
+
+1. **Built-in keep-alive:** A background process in the Docker container pings `/health.php` every 10 minutes automatically
+2. **Health endpoint:** `/health.php` returns a JSON status response
+3. **Optional external monitor:** For 100% uptime, add a free monitor on [UptimeRobot](https://uptimerobot.com):
+   - URL: `https://your-app.onrender.com/health.php`
+   - Interval: 5 minutes (free)
+
+### Environment Variables (Auto-Configured)
+
+| Variable | Value | Purpose |
+|----------|-------|---------|
+| `DATABASE_URL` | Auto from PostgreSQL | Database connection |
+| `PYTHON_COMMAND` | `python3` | Python scheduler path |
+| `PORT` | Auto by Render | Server port |
+
+### Database Notes
+
+- **Local development:** Uses MySQL (XAMPP) via `config/database.php`
+- **Render deployment:** Uses PostgreSQL automatically via `DATABASE_URL` environment variable
+- **Auto-initialization:** `install.php` runs on startup and creates the schema + sample data if the database is empty
+- **PostgreSQL schema:** `database/schema_postgresql.sql` and `database/sample_data_postgresql.sql`
+
+---
+
+## Troubleshooting Deployment
+
+**App shows blank page or 502**
+- Wait 2-3 minutes after deployment (cold start)
+- Check Render dashboard logs for errors
+
+**Database connection failed**
+- Verify `DATABASE_URL` is set in Render dashboard
+- Check PostgreSQL database is in "Available" state
+
+**Python scheduler not found**
+- Verify `PYTHON_COMMAND=python3` is set in environment variables
+- Check Docker build logs for Python installation
+
+**Data disappears after redeploy**
+- Render free tier does not persist disk between deploys
+- The app auto-reinitializes the database on startup
+- PostgreSQL data IS persistent (managed by Render)
+
+**App goes to sleep**
+- The built-in keep-alive should prevent this
+- If it still sleeps, add an external monitor on UptimeRobot
+- Cold start takes ~30 seconds

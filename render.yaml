@@ -1,3 +1,7 @@
+databases:
+  - name: timetable-db
+    plan: free
+
 services:
   - type: web
     name: college-timetable-generator
@@ -13,7 +17,3 @@ services:
       - key: PORT
         sync: false
     healthCheckPath: /health.php
-
-  - type: postgres
-    name: timetable-db
-    plan: free
