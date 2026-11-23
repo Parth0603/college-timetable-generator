@@ -37,6 +37,20 @@ function db(): PDO
         $password = $parts['pass'] ?? '';
 
         $dsn = 'pgsql:host=' . $host . ';port=' . $port . ';dbname=' . $database;
+
+        // Neon.tech (and most managed Postgres providers) require SSL.
+        // Honor the sslmode query parameter if present; otherwise require
+        // SSL automatically for Neon hosts.
+        $query = [];
+        parse_str($parts['query'] ?? '', $query);
+        $sslmode = $query['sslmode'] ?? null;
+        if ($sslmode === null && str_contains($host, 'neon.tech')) {
+            $sslmode = 'require';
+        }
+        if ($sslmode !== null) {
+            $dsn .= ';sslmode=' . $sslmode;
+        }
+
         $connection = new PDO($dsn, $username, $password, $options);
     } else {
         // MySQL connection (local XAMPP / development)

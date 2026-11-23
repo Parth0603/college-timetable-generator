@@ -23,6 +23,20 @@ $database = ltrim($parts['path'] ?? '', '/');
 $username = $parts['user'] ?? '';
 $password = $parts['pass'] ?? '';
 
+// Neon.tech (and most managed Postgres providers) require SSL.
+// Honor the sslmode query parameter if present; otherwise require
+// SSL automatically for Neon hosts.
+$query = [];
+parse_str($parts['query'] ?? '', $query);
+$sslmode = $query['sslmode'] ?? null;
+if ($sslmode === null && str_contains($host, 'neon.tech')) {
+    $sslmode = 'require';
+}
+$dsn = 'pgsql:host=' . $host . ';port=' . $port . ';dbname=' . $database;
+if ($sslmode !== null) {
+    $dsn .= ';sslmode=' . $sslmode;
+}
+
 if (!$host || !$database) {
     echo "ERROR: Could not parse DATABASE_URL properly.\n";
     exit(1);
@@ -30,7 +44,7 @@ if (!$host || !$database) {
 
 try {
     $pdo = new PDO(
-        "pgsql:host={$host};port={$port};dbname={$database}",
+        $dsn,
         $username,
         $password,
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
