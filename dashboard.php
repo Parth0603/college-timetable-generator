@@ -42,7 +42,7 @@ require __DIR__ . '/includes/header.php';
                         <td><?= e($row['academic_year']) ?></td><td><?= e($row['semester']) ?></td>
                         <td>v<?= (int)$row['version_number'] ?></td><td><span class="badge status-<?= e(strtolower($row['status'])) ?>"><?= e($row['status']) ?></span></td>
                         <td><?= e(date('d M Y, h:i A', strtotime($row['generated_at']))) ?></td>
-                        <td><a class="btn btn-sm btn-outline-primary" href="timetable/view.php?timetable_id=<?= (int)$row['id'] ?>">View</a></td>
+                        <td><a class="btn btn-sm btn-outline-primary" href="<?= url('timetable/view.php') ?>?timetable_id=<?= (int)$row['id'] ?>">View</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -53,10 +53,10 @@ require __DIR__ . '/includes/header.php';
         <div class="card"><div class="card-body">
             <h2 class="h6 text-muted text-uppercase">Quick actions</h2>
             <div class="d-grid gap-2">
-                <a class="btn btn-primary" href="timetable/generate.php">Generate timetable</a>
-                <a class="btn btn-outline-primary" href="modules/requirements/index.php">Manage weekly requirements</a>
-                <a class="btn btn-outline-primary" href="modules/availability/index.php">Set teacher availability</a>
-                <a class="btn btn-outline-primary" href="timetable/history.php">Timetable history</a>
+                <a class="btn btn-primary" href="<?= url('timetable/generate.php') ?>">Generate timetable</a>
+                <a class="btn btn-outline-primary" href="<?= url('modules/requirements/index.php') ?>">Manage weekly requirements</a>
+                <a class="btn btn-outline-primary" href="<?= url('modules/availability/index.php') ?>">Set teacher availability</a>
+                <a class="btn btn-outline-primary" href="<?= url('timetable/history.php') ?>">Timetable history</a>
             </div>
         </div></div>
     </div>

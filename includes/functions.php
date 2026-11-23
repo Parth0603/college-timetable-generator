@@ -6,6 +6,11 @@ function e(?string $value): string
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+function url(string $path = ''): string
+{
+    return BASE_PATH . '/' . ltrim($path, '/');
+}
+
 function post_string(string $key, int $maxLength = 255): string
 {
     $value = trim((string)($_POST[$key] ?? ''));

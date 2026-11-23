@@ -39,7 +39,7 @@ if ($format === 'pdf') {
     $left = 28;
     $top = 480;
     $timeWidth = 78;
-    $dayWidth = ($pdf ? 786 : 786) / max(1, count($days));
+    $dayWidth = (842 - $left - $timeWidth) / max(1, count($days));
     $rowHeight = 60;
     $pdf->cell($left, $top, $timeWidth, $rowHeight, 'Time', true);
     foreach ($days as $index => $day) {

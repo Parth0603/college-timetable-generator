@@ -9,7 +9,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
     <title><?= e($pageTitle) ?> | <?= e(COLLEGE_NAME) ?></title>
 <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="<?= url('assets/css/style.css') ?>" rel="stylesheet">
 </head>
 <body class="bg-body">
 <div class="app-shell d-flex">
@@ -22,7 +22,7 @@ $pageTitle = $pageTitle ?? APP_NAME;
     </div>
     <div class="d-flex align-items-center gap-3">
         <span class="d-none d-md-inline text-muted small"><strong><?= e((current_admin()['name'] ?? 'Administrator')) ?></strong></span>
-        <a class="btn btn-outline-danger btn-sm" href="logout.php">Logout</a>
+        <a class="btn btn-outline-danger btn-sm" href="<?= url('logout.php') ?>">Logout</a>
     </div>
 </header>
 <main class="content-grid px-3 px-md-4 py-4">

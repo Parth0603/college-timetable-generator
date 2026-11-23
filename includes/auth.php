@@ -20,7 +20,7 @@ function login_required(): void
     start_secure_session();
 
     if (empty($_SESSION['admin_id'])) {
-        header('Location: login.php');
+        header('Location: ' . BASE_PATH . '/login.php');
         exit;
     }
 
@@ -28,7 +28,7 @@ function login_required(): void
     if (time() - (int)$lastActivity > SESSION_TIMEOUT_SECONDS) {
         session_unset();
         session_destroy();
-        header('Location: login.php?timeout=1');
+        header('Location: ' . BASE_PATH . '/login.php?timeout=1');
         exit;
     }
 

@@ -71,7 +71,7 @@ $(function () {
       })
     }).done(function (response) {
       if (response.success) {
-        result.html('<div class="alert alert-success mb-0">Generated successfully. Quality score: ' + response.quality_score + '</div><a class="btn btn-primary mt-3" href="timetable/view.php?timetable_id=' + response.timetable_id + '">Open timetable</a>');
+        result.html('<div class="alert alert-success mb-0">Generated successfully. Quality score: ' + response.quality_score + '</div><a class="btn btn-primary mt-3" href="<?= url('timetable/view.php') ?>?timetable_id=' + response.timetable_id + '">Open timetable</a>');
       } else {
         result.html('<div class="alert alert-danger mb-0">' + $('<div>').text(response.message).html() + '</div>');
       }

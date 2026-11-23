@@ -34,7 +34,7 @@ class SimplePdf
 
     public function cell(float $x, float $y, float $width, float $height, string $text, bool $header = false): void
     {
-        $color = $header ? '0.93 0.95 1 rg' : '1 1 1 rg';
+        $color = $header ? '0.93 0.95 1' : '1 1 1';
         $this->rect($x, $y, $width, $height, $color);
         $lines = $this->wrap($text, (int)max(12, ($width - 8) / 4.6));
         $startY = $y + $height - 13;
