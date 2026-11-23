@@ -76,9 +76,13 @@ function weekday_options(PDO $db, int $academicYearId): array
 
 function slot_options(PDO $db, int $academicYearId): array
 {
-    $statement = $db->prepare('SELECT id, CONCAT(label, " (", TIME_FORMAT(start_time, "%h:%i %p"), " - ", TIME_FORMAT(end_time, "%h:%i %p"), ")") AS label, is_break FROM time_slots WHERE academic_year_id = ? ORDER BY slot_order');
+    $statement = $db->prepare('SELECT id, label, start_time, end_time, is_break FROM time_slots WHERE academic_year_id = ? ORDER BY slot_order');
     $statement->execute([$academicYearId]);
-    return $statement->fetchAll();
+    $rows = $statement->fetchAll();
+    foreach ($rows as &$row) {
+        $row['label'] = $row['label'] . ' (' . date('h:i A', strtotime($row['start_time'])) . ' - ' . date('h:i A', strtotime($row['end_time'])) . ')';
+    }
+    return $rows;
 }
 
 

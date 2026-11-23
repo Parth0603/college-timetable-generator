@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (post_string('action', 20) === 'initialize') {
         $teacherId = post_int('teacher_id', 0);
         $yearId = post_int('year_id', 0);
-        $statement = $db->prepare('INSERT IGNORE INTO teacher_availability (teacher_id, working_day_id, time_slot_id, is_available) SELECT ?, wd.id, ts.id, 1 FROM working_days wd JOIN time_slots ts ON ts.academic_year_id=wd.academic_year_id WHERE wd.academic_year_id=?');
-        $statement->execute([$teacherId, $yearId]);
+        $statement = $db->prepare('INSERT INTO teacher_availability (teacher_id, working_day_id, time_slot_id, is_available) SELECT ?, wd.id, ts.id, 1 FROM working_days wd JOIN time_slots ts ON ts.academic_year_id=wd.academic_year_id WHERE wd.academic_year_id=? AND NOT EXISTS (SELECT 1 FROM teacher_availability ta WHERE ta.teacher_id=? AND ta.working_day_id=wd.id AND ta.time_slot_id=ts.id)');
+        $statement->execute([$teacherId, $yearId, $teacherId]);
         redirect_with_flash('index.php?teacher_id=' . $teacherId . '&year_id=' . $yearId, 'Availability grid created.');
     }
     if (post_string('action', 20) === 'toggle') {
@@ -40,7 +40,7 @@ if ($teacherId && $yearId) {
     $statement->execute([$yearId]);
     $slots = $statement->fetchAll();
     $statement = $db->prepare('SELECT * FROM teacher_availability WHERE teacher_id=? AND working_day_id IN (SELECT id FROM working_days WHERE academic_year_id=?)');
-    $statement->execute([$teacherId, $yearId]);
+    $statement->execute([$teacherId, $yearId, $teacherId]);
     foreach ($statement->fetchAll() as $row) {
         $availability[(int)$row['working_day_id']][(int)$row['time_slot_id']] = $row;
     }
