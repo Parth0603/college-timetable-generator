@@ -58,7 +58,7 @@ $slots = fetch_all($db, 'SELECT id, slot_order, label, start_time, end_time, is_
 $currentSlots = fetch_all($db, 'SELECT time_slot_id, working_day_id FROM timetable_entry_slots WHERE timetable_entry_id=? ORDER BY slot_sequence', [(int)$entry['id']]);
 $currentDay = (int)($currentSlots[0]['working_day_id'] ?? 0);
 $teacherOptions = fetch_all($db, 'SELECT t.id, t.name AS label FROM teachers t JOIN teacher_subjects ts ON ts.teacher_id=t.id WHERE ts.subject_id=? ORDER BY t.name', [(int)$entry['subject_id']]);
-$classroomOptions = fetch_all($db, 'SELECT id, CONCAT(name, " (", capacity, " seats)") AS label, room_type, capacity FROM classrooms WHERE is_active=1 ORDER BY room_type, name');
+$classroomOptions = fetch_all($db, 'SELECT id, CONCAT(name, \' (\', capacity, \' seats)\') AS label, room_type, capacity FROM classrooms WHERE is_active=1 ORDER BY room_type, name');
 $pageTitle = 'Edit Timetable';
 require __DIR__ . '/../includes/header.php';
 ?>

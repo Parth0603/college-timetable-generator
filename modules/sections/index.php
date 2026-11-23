@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/crud.php';
 login_required();
 
-$semesterOptions = 'SELECT s.id, CONCAT(ay.name, " - ", s.name) AS label FROM semesters s JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number';
+$semesterOptions = 'SELECT s.id, CONCAT(ay.name, \' - \', s.name) AS label FROM semesters s JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number';
 $config = [
     'title' => 'Student Sections', 'singular' => 'Section', 'table' => 'sections',
     'fields' => [

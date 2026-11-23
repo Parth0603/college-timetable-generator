@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../includes/crud.php';
 login_required();
 
 $departmentOptions = 'SELECT id, name AS label FROM departments ORDER BY name';
-$semesterOptions = 'SELECT s.id, CONCAT(ay.name, " - ", s.name) AS label FROM semesters s JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number';
+$semesterOptions = 'SELECT s.id, CONCAT(ay.name, \' - \', s.name) AS label FROM semesters s JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number';
 $fields = [
     ['name' => 'department_id', 'label' => 'Department', 'type' => 'select', 'required' => true, 'options' => $departmentOptions],
     ['name' => 'semester_id', 'label' => 'Semester', 'type' => 'select', 'required' => true, 'options' => $semesterOptions],

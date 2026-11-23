@@ -43,7 +43,7 @@ require __DIR__ . '/../includes/header.php';
         <div class="row g-2">
             <div class="col-md-3"><label class="form-label">Timetable</label>
                 <select class="form-select" name="timetable_id" onchange="this.form.submit()">
-                    <?= select_options($db, 'SELECT t.id, CONCAT(ay.name, " / ", s.name, " / v", t.version_number) AS label FROM timetables t JOIN academic_years ay ON ay.id=t.academic_year_id JOIN semesters s ON s.id=t.semester_id ORDER BY t.generated_at DESC', [], $timetableId) ?>
+                    <?= select_options($db, 'SELECT t.id, CONCAT(ay.name, \' / \', s.name, \' / v\', t.version_number) AS label FROM timetables t JOIN academic_years ay ON ay.id=t.academic_year_id JOIN semesters s ON s.id=t.semester_id ORDER BY t.generated_at DESC', [], $timetableId) ?>
                 </select>
             </div>
             <div class="col-md-3"><label class="form-label">Mode</label>

@@ -6,8 +6,8 @@ require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/crud.php';
 login_required();
 
-$sectionOptions = 'SELECT sec.id, CONCAT(ay.name, " / ", s.name, " / ", sec.name) AS label FROM sections sec JOIN semesters s ON s.id=sec.semester_id JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number, sec.name';
-$subjectOptions = 'SELECT id, CONCAT(code, " - ", name) AS label FROM subjects ORDER BY code';
+$sectionOptions = 'SELECT sec.id, CONCAT(ay.name, \' / \', s.name, \' / \', sec.name) AS label FROM sections sec JOIN semesters s ON s.id=sec.semester_id JOIN academic_years ay ON ay.id=s.academic_year_id ORDER BY ay.start_date DESC, s.semester_number, sec.name';
+$subjectOptions = 'SELECT id, CONCAT(code, \' - \', name) AS label FROM subjects ORDER BY code';
 $roomTypeOptions = "SELECT 'CLASSROOM' AS id, 'Classroom' AS label UNION ALL SELECT 'LABORATORY' AS id, 'Laboratory' AS label UNION ALL SELECT 'ANY' AS id, 'Any suitable room' AS label";
 $fields = [
     ['name' => 'section_id', 'label' => 'Section', 'type' => 'select', 'required' => true, 'options' => $sectionOptions],

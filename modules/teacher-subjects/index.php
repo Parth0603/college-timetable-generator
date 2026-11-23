@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../includes/crud.php';
 login_required();
 
 $teacherOptions = 'SELECT id, name AS label FROM teachers ORDER BY name';
-$subjectOptions = 'SELECT id, CONCAT(code, " - ", name) AS label FROM subjects ORDER BY code';
+$subjectOptions = 'SELECT id, CONCAT(code, \' - \', name) AS label FROM subjects ORDER BY code';
 $fields = [
     ['name' => 'teacher_id', 'label' => 'Teacher', 'type' => 'select', 'required' => true, 'options' => $teacherOptions],
     ['name' => 'subject_id', 'label' => 'Subject', 'type' => 'select', 'required' => true, 'options' => $subjectOptions],
