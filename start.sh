@@ -7,22 +7,24 @@ echo "=== Starting College Timetable Generator ==="
 echo "Waiting for database..."
 sleep 5
 
-# Initialize database if needed
+# Initialize database if needed (creates tables + sample data on first boot)
 if [ -n "$DATABASE_URL" ]; then
     echo "Running database initialization..."
     php /app/install.php || echo "Database initialization skipped (may already exist)"
 fi
 
-# Start keep-alive background process (pings every 10 minutes)
-echo "Starting keep-alive monitor..."
+# Keep-alive: ping the public URL every 5 minutes so the free tier never sleeps.
+# RENDER_EXTERNAL_URL is injected automatically by Render (e.g. https://xxx.onrender.com).
+# Fallback to localhost if the variable is not present (local Docker testing).
 (
     while true; do
-        sleep 600
-        curl -s -o /dev/null -w "Keep-alive ping: %{http_code}\n" http://localhost:${PORT:-10000}/health.php || true
+        sleep 300
+        TARGET="${RENDER_EXTERNAL_URL:-http://localhost:${PORT:-10000}}/health.php"
+        curl -s -o /dev/null -w "Keep-alive ping: %{http_code}\n" "$TARGET" || true
     done
 ) &
-echo "Keep-alive process started."
+echo "Keep-alive monitor started (every 5 minutes)."
 
-# Start PHP server
+# Start PHP server on the port Render assigns
 echo "Starting web server on port ${PORT:-10000}..."
 exec php -S 0.0.0.0:${PORT:-10000} -t /app
