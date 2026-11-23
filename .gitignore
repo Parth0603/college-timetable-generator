@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+*.log
+.env
+exports/*.pdf
+vendor/*
+!vendor/.gitkeep
+.DS_Store
+Thumbs.db
