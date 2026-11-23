@@ -40,7 +40,7 @@ if ($teacherId && $yearId) {
     $statement->execute([$yearId]);
     $slots = $statement->fetchAll();
     $statement = $db->prepare('SELECT * FROM teacher_availability WHERE teacher_id=? AND working_day_id IN (SELECT id FROM working_days WHERE academic_year_id=?)');
-    $statement->execute([$teacherId, $yearId, $teacherId]);
+    $statement->execute([$teacherId, $yearId]);
     foreach ($statement->fetchAll() as $row) {
         $availability[(int)$row['working_day_id']][(int)$row['time_slot_id']] = $row;
     }

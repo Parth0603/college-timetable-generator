@@ -12,7 +12,7 @@ $issues = [];
 $checks = [];
 if ($timetableId) {
     $scope = timetable_scope($db, $timetableId);
-    $conflicts = $db->prepare('SELECT tes.teacher_id, tes.classroom_id, tes.section_id, tes.working_day_id, tes.time_slot_id, COUNT(*) AS total FROM timetable_entry_slots tes WHERE tes.timetable_id=? GROUP BY tes.timetable_id, tes.teacher_id, tes.working_day_id, tes.time_slot_id HAVING COUNT(*)>1');
+    $conflicts = $db->prepare('SELECT tes.teacher_id, tes.working_day_id, tes.time_slot_id, COUNT(*) AS total FROM timetable_entry_slots tes WHERE tes.timetable_id=? GROUP BY tes.timetable_id, tes.teacher_id, tes.working_day_id, tes.time_slot_id HAVING COUNT(*)>1');
     $conflicts->execute([$timetableId]);
     $teacherIssues = $conflicts->fetchAll();
     $roomConflicts = $db->prepare('SELECT tes.classroom_id, tes.working_day_id, tes.time_slot_id, COUNT(*) AS total FROM timetable_entry_slots tes WHERE tes.timetable_id=? GROUP BY tes.timetable_id, tes.classroom_id, tes.working_day_id, tes.time_slot_id HAVING COUNT(*)>1');
